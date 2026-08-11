@@ -124,47 +124,48 @@ function handleGuess(event) {
     return;
   }
 
+  if (state.attempts.includes(guess)) {
+    elements.feedback.textContent = "Você já tentou esse Pokémon.";
+    elements.feedback.className = "feedback error";
+    elements.input.select();
+    return;
+  }
+
   state.attempts.push(guess);
-  state.lives -= 1;
-  revealGuessLetters(guess);
-  renderLives();
-  renderMaskedName();
   renderAttempts();
   elements.input.value = "";
-  verifyLives();
-  verifyTryGuess(guess);
-}
 
-function verifyLives() {
-  if (state.lives === 0) {
-    elements.feedback.textContent = "Suas vidas acabaram.";
-    elements.feedback.className = "feedback error";
-    finishRound(false);
-  } else {
-    const brightness = state.attempts.length * 25;
-    setBrightness(brightness);
-    elements.feedback.textContent = "Não é esse. As letras em comum foram reveladas!";
-    elements.feedback.className = "feedback error";
-    elements.input.focus();
-  }
-}
-
-function verifyTryGuess(guess) {
-   console.log(state.pokemon.name,'name')
-   console.log(elements.maskedName.textContent,'content')
-     if (guess === state.pokemon.name || state.pokemon.name === elements.maskedName.textContent) {
+  if (guess === state.pokemon.name) {
     elements.feedback.textContent = "Acertou! Pokédex atualizada.";
     elements.feedback.className = "feedback success";
     finishRound(true);
     return;
   }
 
-  if (state.attempts.includes(guess)) {
-    elements.feedback.textContent = "Você já tentou esse Pokémon.";
-    elements.feedback.className = "feedback error";
+  revealGuessLetters(guess);
+  renderMaskedName();
+
+  if (state.pokemon.name === elements.maskedName.textContent) {
+    elements.feedback.textContent = "Você revelou todas as letras!";
+    elements.feedback.className = "feedback success";
+    finishRound(true);
     return;
   }
 
+  state.lives -= 1;
+  renderLives();
+
+  if (state.lives === 0) {
+    elements.feedback.textContent = "Suas vidas acabaram.";
+    elements.feedback.className = "feedback error";
+    finishRound(false);
+    return;
+  }
+
+  setBrightness(state.attempts.length * 25);
+  elements.feedback.textContent = "Não é esse. As letras em comum foram reveladas!";
+  elements.feedback.className = "feedback error";
+  elements.input.focus();
 }
 
 async function loadPokemon() {
