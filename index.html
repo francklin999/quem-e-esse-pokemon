@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Descubra o Pokémon pela silhueta antes que suas vidas acabem.">
+  <title>Quem é esse Pokémon?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="background-grid" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#game" aria-label="Quem é esse Pokémon?">
+      <span class="pokeball" aria-hidden="true"></span>
+      <span>Poké<span>Guess</span></span>
+    </a>
+    <div class="scoreboard" aria-label="Placar">
+      <div><small>Sequência</small><strong id="streak">0</strong></div>
+      <div><small>Recorde</small><strong id="best-score">0</strong></div>
+    </div>
+  </header>
+
+  <main id="game" class="game-shell">
+    <section class="hero-copy">
+      <p class="eyebrow">DESAFIO POKÉDEX #<span id="pokemon-number">???</span></p>
+      <h1>Quem é esse<br><em>Pokémon?</em></h1>
+      <p>Use seus chutes para revelar letras e iluminar a silhueta. Você tem apenas três vidas.</p>
+      <div class="instructions">
+        <span><b>1</b> Digite um Pokémon</span>
+        <span><b>2</b> Letras em comum aparecem</span>
+        <span><b>3</b> Acerte antes de 3 erros</span>
+      </div>
+    </section>
+
+    <section class="game-card" aria-labelledby="round-title">
+      <div class="card-topline">
+        <div>
+          <small id="round-title">SUAS VIDAS</small>
+          <div id="lives" class="lives" aria-label="3 vidas restantes"></div>
+        </div>
+        <div class="light-meter">
+          <small>VISIBILIDADE</small>
+          <strong id="brightness-label">0%</strong>
+        </div>
+      </div>
+
+      <div class="pokemon-stage">
+        <div class="radar" aria-hidden="true"></div>
+        <div id="loading" class="loading" role="status">Buscando Pokémon…</div>
+        <img id="pokemon-image" alt="Silhueta de um Pokémon misterioso" draggable="false">
+        <div class="scanline" aria-hidden="true"></div>
+      </div>
+
+      <div class="answer-area">
+        <p id="masked-name" class="masked-name" aria-live="polite">───────</p>
+        <p id="letter-count" class="letter-count">7 letras</p>
+      </div>
+
+      <form id="guess-form" class="guess-form" novalidate>
+        <label for="guess">Qual é o seu chute?</label>
+        <div class="guess-control">
+          <input id="guess" name="guess" type="text" autocomplete="off" spellcheck="false" placeholder="Ex.: Pikachu" maxlength="24" required>
+          <button type="submit">Chutar <span aria-hidden="true">→</span></button>
+        </div>
+        <p id="feedback" class="feedback" aria-live="assertive">Digite o nome de qualquer Pokémon.</p>
+      </form>
+
+      <div class="attempts-block">
+        <div class="attempts-title"><span>TENTATIVAS</span><small id="attempts-count">0 de 3</small></div>
+        <ol id="attempts" class="attempts"><li class="empty-attempt">Nenhum chute ainda</li></ol>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="result-dialog" class="result-dialog" aria-labelledby="result-title">
+    <div id="result-badge" class="result-badge">✓</div>
+    <p id="result-kicker" class="eyebrow">VOCÊ CONSEGUIU!</p>
+    <h2 id="result-title">Era Pikachu!</h2>
+    <img id="result-image" alt="">
+    <p id="result-copy">Excelente trabalho, treinador.</p>
+    <button id="next-pokemon" type="button">Próximo Pokémon</button>
+  </dialog>
+
+  <footer>Dados e imagens fornecidos pela <a href="https://pokeapi.co/" target="_blank" rel="noreferrer">PokéAPI</a>.</footer>
+  <script src="js/script.js" defer></script>
+</body>
+</html>
