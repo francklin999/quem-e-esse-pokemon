@@ -116,25 +116,14 @@ function finishRound(won) {
 function handleGuess(event) {
   event.preventDefault();
   const guess = normalize(elements.input.value);
+
   if (!guess) {
     elements.feedback.textContent = "Digite um nome antes de chutar.";
     elements.feedback.className = "feedback error";
     elements.input.focus();
     return;
   }
-  if (state.attempts.includes(guess)) {
-    elements.feedback.textContent = "Você já tentou esse Pokémon.";
-    elements.feedback.className = "feedback error";
-    return;
-  }
-  if (guess === state.pokemon.name) {
-    state.attempts.push(guess);
-    renderAttempts();
-    elements.feedback.textContent = "Acertou! Pokédex atualizada.";
-    elements.feedback.className = "feedback success";
-    finishRound(true);
-    return;
-  }
+
   state.attempts.push(guess);
   state.lives -= 1;
   revealGuessLetters(guess);
@@ -142,6 +131,11 @@ function handleGuess(event) {
   renderMaskedName();
   renderAttempts();
   elements.input.value = "";
+  verifyLives();
+  verifyTryGuess(guess);
+}
+
+function verifyLives() {
   if (state.lives === 0) {
     elements.feedback.textContent = "Suas vidas acabaram.";
     elements.feedback.className = "feedback error";
@@ -153,6 +147,24 @@ function handleGuess(event) {
     elements.feedback.className = "feedback error";
     elements.input.focus();
   }
+}
+
+function verifyTryGuess(guess) {
+   console.log(state.pokemon.name,'name')
+   console.log(elements.maskedName.textContent,'content')
+     if (guess === state.pokemon.name || state.pokemon.name === elements.maskedName.textContent) {
+    elements.feedback.textContent = "Acertou! Pokédex atualizada.";
+    elements.feedback.className = "feedback success";
+    finishRound(true);
+    return;
+  }
+
+  if (state.attempts.includes(guess)) {
+    elements.feedback.textContent = "Você já tentou esse Pokémon.";
+    elements.feedback.className = "feedback error";
+    return;
+  }
+
 }
 
 async function loadPokemon() {
